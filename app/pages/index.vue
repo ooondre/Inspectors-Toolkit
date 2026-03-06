@@ -1,251 +1,459 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData('index', () => queryCollection('content').first())
-if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
-}
-
 useSeoMeta({
-  title: page.value.seo?.title || page.value.title,
-  ogTitle: page.value.seo?.title || page.value.title,
-  description: page.value.seo?.description || page.value.description,
-  ogDescription: page.value.seo?.description || page.value.description
+  title: 'Nuxt UI - The complete platform to build the web',
+  ogTitle: 'Nuxt UI - The complete platform to build the web',
+  description: 'Build beautiful, full-stack web applications with Nuxt UI. The complete UI toolkit for Vue and Nuxt developers.',
+  ogDescription: 'Build beautiful, full-stack web applications with Nuxt UI. The complete UI toolkit for Vue and Nuxt developers.'
 })
+
+const features = [
+  {
+    title: 'Production-Ready Components',
+    description: 'Ship faster with 50+ beautifully designed, accessible components built for Vue and Nuxt.',
+    icon: 'i-lucide-layers'
+  },
+  {
+    title: 'Fully Customizable',
+    description: 'Every component is fully customizable with Tailwind CSS. Make it yours with ease.',
+    icon: 'i-lucide-palette'
+  },
+  {
+    title: 'Dark Mode Built-in',
+    description: 'Seamless dark mode support out of the box. Your users will love the flexibility.',
+    icon: 'i-lucide-moon'
+  },
+  {
+    title: 'TypeScript First',
+    description: 'Full TypeScript support with auto-completion and type safety across all components.',
+    icon: 'i-lucide-code'
+  },
+  {
+    title: 'Keyboard Navigation',
+    description: 'Accessible by default with full keyboard navigation and screen reader support.',
+    icon: 'i-lucide-keyboard'
+  },
+  {
+    title: 'SSR Compatible',
+    description: 'Works seamlessly with server-side rendering for optimal performance and SEO.',
+    icon: 'i-lucide-server'
+  }
+]
+
+const stats = [
+  { value: '50+', label: 'Components' },
+  { value: '10K+', label: 'GitHub Stars' },
+  { value: '100K+', label: 'Weekly Downloads' },
+  { value: '99%', label: 'TypeScript Coverage' }
+]
+
+const steps = [
+  {
+    number: '01',
+    title: 'Install the package',
+    description: 'Add Nuxt UI to your project with a single command.',
+    code: 'npx nuxi module add ui'
+  },
+  {
+    number: '02',
+    title: 'Import components',
+    description: 'Use any component directly in your templates. No imports needed.',
+    code: '<UButton>Click me</UButton>'
+  },
+  {
+    number: '03',
+    title: 'Customize & ship',
+    description: 'Style with Tailwind CSS and deploy your beautiful app.',
+    code: '<UButton color="primary" variant="solid">Ship it</UButton>'
+  }
+]
+
+const testimonials = [
+  {
+    quote: 'Nuxt UI has completely transformed how we build applications. The component quality is outstanding.',
+    name: 'Sarah Chen',
+    role: 'Lead Developer at TechCorp',
+    avatar: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/SarahM19'
+  },
+  {
+    quote: 'Finally, a component library that feels native to Nuxt. The DX is incredible.',
+    name: 'Alex Rivera',
+    role: 'Senior Engineer at StartupXYZ',
+    avatar: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/atinux'
+  },
+  {
+    quote: 'We shipped our product 3x faster thanks to Nuxt UI. Cannot recommend it enough.',
+    name: 'Marcus Johnson',
+    role: 'CTO at DevStudio',
+    avatar: 'https://ipx.nuxt.com/f_auto,s_192x192/gh_avatar/benjamincanac'
+  }
+]
+
+const plans = [
+  {
+    name: 'Free',
+    price: '$0',
+    description: 'Perfect for side projects and learning.',
+    features: [
+      'All 50+ components',
+      'Tailwind CSS integration',
+      'Dark mode support',
+      'Community support',
+      'MIT License'
+    ],
+    cta: 'Get Started',
+    variant: 'outline' as const,
+    highlight: false
+  },
+  {
+    name: 'Pro',
+    price: '$199',
+    description: 'For teams building production apps.',
+    features: [
+      'Everything in Free',
+      'Premium templates',
+      'Priority support',
+      'Figma design system',
+      'Early access to new features',
+      'Commercial license'
+    ],
+    cta: 'Buy Pro',
+    variant: 'solid' as const,
+    highlight: true
+  }
+]
 </script>
 
 <template>
-  <div
-    v-if="page"
-    class="relative"
-  >
-    <div class="hidden lg:block">
-      <UColorModeImage
-        light="/images/light/line-1.svg"
-        dark="/images/dark/line-1.svg"
-        class="absolute pointer-events-none pb-10 left-0 top-0 object-cover h-[650px]"
-      />
-    </div>
-
-    <UPageHero
-      :description="page.description"
-      :links="page.hero.links"
-      :ui="{
-        container: 'md:pt-18 lg:pt-20',
-        title: 'max-w-3xl mx-auto'
-      }"
-    >
-      <template #top>
-        <HeroBackground />
-      </template>
-
-      <template #title>
-        <MDC
-          :value="page.title"
-          unwrap="p"
-        />
-      </template>
-    </UPageHero>
-
-    <UPageSection
-      :description="page.section.description"
-      :features="page.section.features"
-      orientation="horizontal"
-      :ui="{
-        container: 'lg:px-0 2xl:px-20 mx-0 max-w-none md:mr-10',
-        features: 'gap-0'
-      }"
-      reverse
-    >
-      <template #title>
-        <MDC
-          :value="page.section.title"
-          class="sm:*:leading-11"
-        />
-      </template>
-      <img
-        :src="page.section.images.desktop"
-        :alt="page.section.title"
-        class="hidden lg:block 2xl:hidden left-0 w-full max-w-2xl"
-      >
-      <img
-        :src="page.section.images.mobile"
-        :alt="page.section.title"
-        class="block lg:hidden 2xl:block 2xl:w-full 2xl:max-w-2xl"
-      >
-    </UPageSection>
-
-    <USeparator :ui="{ border: 'border-primary/30' }" />
-
-    <UPageSection
-      id="features"
-      :description="page.features.description"
-      :features="page.features.features"
-      :ui="{
-        title: 'text-left @container relative flex',
-        description: 'text-left'
-      }"
-      class="relative overflow-hidden"
-    >
-      <div class="absolute rounded-full -left-10 top-10 size-[300px] z-10 bg-primary opacity-30 blur-[200px]" />
-      <div class="absolute rounded-full -right-10 -bottom-10 size-[300px] z-10 bg-primary opacity-30 blur-[200px]" />
-      <template #title>
-        <MDC
-          :value="page.features.title"
-          class="*:leading-9"
-        />
-        <div class="hidden @min-[1020px]:block">
-          <UColorModeImage
-            light="/images/light/line-2.svg"
-            dark="/images/dark/line-2.svg"
-            class="absolute top-0 right-0 size-full transform scale-95 translate-x-[70%]"
-          />
+  <div class="relative bg-black text-white">
+    <!-- Grid Pattern Background -->
+    <div class="fixed inset-0 grid-pattern pointer-events-none opacity-50" />
+    
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <!-- Gradient Orb -->
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-[128px] pointer-events-none" />
+      
+      <div class="relative z-10 max-w-5xl mx-auto text-center">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm mb-8">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+          </span>
+          <span class="text-sm text-neutral-400">Now available for Nuxt 4</span>
         </div>
-      </template>
-    </UPageSection>
-
-    <USeparator :ui="{ border: 'border-primary/30' }" />
-
-    <UPageSection
-      id="steps"
-      :description="page.steps.description"
-      class="relative overflow-hidden"
-    >
-      <template #headline>
-        <UColorModeImage
-          light="/images/light/line-3.svg"
-          dark="/images/dark/line-3.svg"
-          class="absolute -top-10 sm:top-0 right-1/2 h-24"
-        />
-      </template>
-      <template #title>
-        <MDC :value="page.steps.title" />
-      </template>
-
-      <template #features>
-        <UPageCard
-          v-for="(step, index) in page.steps.items"
-          :key="index"
-          class="group"
-          :ui="{ container: 'p-4 sm:p-4', title: 'flex items-center gap-1' }"
-        >
-          <UColorModeImage
-            v-if="step.image"
-            :light="step.image?.light"
-            :dark="step.image?.dark"
-            :alt="step.title"
-            class="size-full"
-          />
-
-          <div class="flex flex-col gap-2">
-            <span class="text-lg font-semibold">
-              {{ step.title }}
-            </span>
-            <span class="text-sm text-muted">
-              {{ step.description }}
-            </span>
-          </div>
-        </UPageCard>
-      </template>
-    </UPageSection>
-
-    <UPageSection
-      id="pricing"
-      class="mb-32 overflow-hidden"
-      :title="page.pricing.title"
-      :description="page.pricing.description"
-      :ui="{ title: 'text-left @container relative', description: 'text-left' }"
-    >
-      <template #title>
-        <MDC :value="page.pricing.title" />
-
-        <div class="hidden @min-[1120px]:block">
-          <UColorModeImage
-            light="/images/light/line-4.svg"
-            dark="/images/dark/line-4.svg"
-            class="absolute top-0 right-0 size-full transform translate-x-[60%]"
-          />
-        </div>
-      </template>
-
-      <UPricingPlans scale>
-        <UPricingPlan
-          v-for="(plan, index) in page.pricing.plans"
-          :key="index"
-          :title="plan.title"
-          :description="plan.description"
-          :price="plan.price"
-          :billing-period="plan.billing_period"
-          :billing-cycle="plan.billing_cycle"
-          :highlight="plan.highlight"
-          :scale="plan.highlight"
-          variant="soft"
-          :features="plan.features"
-          :button="plan.button"
-        />
-      </UPricingPlans>
-    </UPageSection>
-
-    <UPageSection
-      id="testimonials"
-      :title="page.testimonials.title"
-      :description="page.testimonials.description"
-      :items="page.testimonials.items"
-    >
-      <template #headline>
-        <UColorModeImage
-          light="/images/light/line-5.svg"
-          dark="/images/dark/line-5.svg"
-          class="absolute -top-10 sm:top-0 right-1/2 h-24"
-        />
-      </template>
-      <template #title>
-        <MDC :value="page.testimonials.title" />
-      </template>
-
-      <UContainer>
-        <UPageColumns class="xl:columns-3">
-          <UPageCard
-            v-for="(testimonial, index) in page.testimonials.items"
-            :key="index"
-            variant="subtle"
-            :description="testimonial.quote"
-            :ui="{ description: 'before:content-[open-quote] after:content-[close-quote]' }"
+        
+        <!-- Main Heading -->
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-balance">
+          <span class="text-white">The complete platform</span>
+          <br />
+          <span class="gradient-text">to build the web</span>
+        </h1>
+        
+        <!-- Subheading -->
+        <p class="text-lg sm:text-xl text-neutral-400 max-w-2xl mx-auto mb-10 text-pretty">
+          Build beautiful, accessible, and performant web applications with Nuxt UI. 
+          The complete UI toolkit for Vue and Nuxt developers.
+        </p>
+        
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <UButton
+            to="https://ui.nuxt.com/docs/getting-started/installation/nuxt"
+            target="_blank"
+            size="xl"
+            color="white"
+            class="px-8"
           >
-            <template #footer>
-              <UUser
-                v-bind="testimonial.user"
-                size="xl"
-              />
-            </template>
-          </UPageCard>
-        </UPageColumns>
-      </UContainer>
-    </UPageSection>
-
-    <USeparator />
-
-    <UPageCTA
-      v-bind="page.cta"
-      variant="naked"
-      class="overflow-hidden @container"
-    >
-      <template #title>
-        <MDC :value="page.cta.title" />
-
-        <div class="@max-[1280px]:hidden">
-          <UColorModeImage
-            light="/images/light/line-6.svg"
-            dark="/images/dark/line-6.svg"
-            class="absolute left-10 -top-10 sm:top-0 h-full"
-          />
-          <UColorModeImage
-            light="/images/light/line-7.svg"
-            dark="/images/dark/line-7.svg"
-            class="absolute right-0 bottom-0 h-full"
+            Get Started
+            <UIcon name="i-lucide-arrow-right" class="ml-2" />
+          </UButton>
+          <UButton
+            to="https://github.com/nuxt/ui"
+            target="_blank"
+            size="xl"
+            color="neutral"
+            variant="outline"
+            class="px-8"
+          >
+            <UIcon name="i-simple-icons-github" class="mr-2" />
+            Star on GitHub
+          </UButton>
+        </div>
+        
+        <!-- Install Command -->
+        <div class="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-lg border border-neutral-800 bg-neutral-900/80 backdrop-blur-sm font-mono text-sm">
+          <span class="text-neutral-500">$</span>
+          <span class="text-neutral-300">npx nuxi module add ui</span>
+          <UButton
+            color="neutral"
+            variant="ghost"
+            size="xs"
+            icon="i-lucide-copy"
+            aria-label="Copy command"
+            @click="navigator.clipboard.writeText('npx nuxi module add ui')"
           />
         </div>
-      </template>
+      </div>
+      
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-500">
+        <span class="text-xs uppercase tracking-widest">Scroll</span>
+        <div class="w-px h-8 bg-gradient-to-b from-neutral-500 to-transparent" />
+      </div>
+    </section>
 
-      <LazyStarsBg />
-    </UPageCTA>
+    <!-- Stats Section -->
+    <section class="relative py-20 border-y border-neutral-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div
+            v-for="stat in stats"
+            :key="stat.label"
+            class="text-center"
+          >
+            <div class="text-4xl sm:text-5xl font-bold text-white mb-2">
+              {{ stat.value }}
+            </div>
+            <div class="text-sm text-neutral-500 uppercase tracking-wider">
+              {{ stat.label }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="relative py-24 sm:py-32">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Everything you need to ship faster
+          </h2>
+          <p class="text-lg text-neutral-400 max-w-2xl mx-auto">
+            A comprehensive suite of components and utilities designed for modern web development.
+          </p>
+        </div>
+        
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-for="feature in features"
+            :key="feature.title"
+            class="group p-6 rounded-2xl border border-neutral-800 bg-neutral-900/50 hover-lift"
+          >
+            <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center mb-4 group-hover:bg-neutral-700 transition-colors">
+              <UIcon :name="feature.icon" class="w-6 h-6 text-white" />
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">
+              {{ feature.title }}
+            </h3>
+            <p class="text-neutral-400 leading-relaxed">
+              {{ feature.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="steps" class="relative py-24 sm:py-32 border-y border-neutral-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Get started in minutes
+          </h2>
+          <p class="text-lg text-neutral-400 max-w-2xl mx-auto">
+            Three simple steps to transform your development workflow.
+          </p>
+        </div>
+        
+        <!-- Steps -->
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            v-for="step in steps"
+            :key="step.number"
+            class="relative"
+          >
+            <!-- Step Number -->
+            <div class="text-7xl font-bold text-neutral-800 mb-4">
+              {{ step.number }}
+            </div>
+            
+            <!-- Step Content -->
+            <h3 class="text-xl font-semibold text-white mb-2">
+              {{ step.title }}
+            </h3>
+            <p class="text-neutral-400 mb-4">
+              {{ step.description }}
+            </p>
+            
+            <!-- Code Block -->
+            <div class="p-4 rounded-lg border border-neutral-800 bg-neutral-900/80 font-mono text-sm text-neutral-300">
+              {{ step.code }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="relative py-24 sm:py-32">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Simple, transparent pricing
+          </h2>
+          <p class="text-lg text-neutral-400 max-w-2xl mx-auto">
+            Start for free, upgrade when you need more.
+          </p>
+        </div>
+        
+        <!-- Pricing Cards -->
+        <div class="grid md:grid-cols-2 gap-8">
+          <div
+            v-for="plan in plans"
+            :key="plan.name"
+            class="relative p-8 rounded-2xl border transition-all duration-300"
+            :class="plan.highlight 
+              ? 'border-white bg-white/5 scale-[1.02]' 
+              : 'border-neutral-800 bg-neutral-900/50 hover:border-neutral-700'"
+          >
+            <!-- Popular Badge -->
+            <div
+              v-if="plan.highlight"
+              class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-white text-black text-xs font-medium"
+            >
+              Most Popular
+            </div>
+            
+            <!-- Plan Header -->
+            <div class="mb-6">
+              <h3 class="text-2xl font-bold text-white mb-2">
+                {{ plan.name }}
+              </h3>
+              <div class="flex items-baseline gap-1">
+                <span class="text-4xl font-bold text-white">{{ plan.price }}</span>
+                <span v-if="plan.price !== '$0'" class="text-neutral-400">/one-time</span>
+              </div>
+              <p class="text-neutral-400 mt-2">
+                {{ plan.description }}
+              </p>
+            </div>
+            
+            <!-- Features List -->
+            <ul class="space-y-3 mb-8">
+              <li
+                v-for="feature in plan.features"
+                :key="feature"
+                class="flex items-center gap-3 text-neutral-300"
+              >
+                <UIcon name="i-lucide-check" class="w-5 h-5 text-green-500 flex-shrink-0" />
+                {{ feature }}
+              </li>
+            </ul>
+            
+            <!-- CTA Button -->
+            <UButton
+              :color="plan.highlight ? 'white' : 'neutral'"
+              :variant="plan.variant"
+              block
+              size="lg"
+              to="https://ui.nuxt.com/pro"
+              target="_blank"
+            >
+              {{ plan.cta }}
+            </UButton>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="relative py-24 sm:py-32 border-y border-neutral-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Loved by developers worldwide
+          </h2>
+          <p class="text-lg text-neutral-400 max-w-2xl mx-auto">
+            Join thousands of developers building amazing products with Nuxt UI.
+          </p>
+        </div>
+        
+        <!-- Testimonials Grid -->
+        <div class="grid md:grid-cols-3 gap-6">
+          <div
+            v-for="testimonial in testimonials"
+            :key="testimonial.name"
+            class="p-6 rounded-2xl border border-neutral-800 bg-neutral-900/50"
+          >
+            <p class="text-neutral-300 mb-6 leading-relaxed">
+              "{{ testimonial.quote }}"
+            </p>
+            <div class="flex items-center gap-3">
+              <img
+                :src="testimonial.avatar"
+                :alt="testimonial.name"
+                class="w-10 h-10 rounded-full"
+              >
+              <div>
+                <div class="font-medium text-white">
+                  {{ testimonial.name }}
+                </div>
+                <div class="text-sm text-neutral-500">
+                  {{ testimonial.role }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative py-24 sm:py-32">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Gradient Orb -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div class="relative z-10">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Ready to build something amazing?
+          </h2>
+          <p class="text-lg text-neutral-400 max-w-xl mx-auto mb-10">
+            Join thousands of developers building beautiful applications with Nuxt UI.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <UButton
+              to="https://ui.nuxt.com/docs/getting-started/installation/nuxt"
+              target="_blank"
+              size="xl"
+              color="white"
+              class="px-8"
+            >
+              Start Building
+              <UIcon name="i-lucide-arrow-right" class="ml-2" />
+            </UButton>
+            <UButton
+              to="https://github.com/nuxt-ui-templates/landing"
+              target="_blank"
+              size="xl"
+              color="neutral"
+              variant="outline"
+              class="px-8"
+            >
+              <UIcon name="i-simple-icons-github" class="mr-2" />
+              View on GitHub
+            </UButton>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>

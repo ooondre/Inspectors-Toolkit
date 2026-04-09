@@ -65,7 +65,7 @@ const { copy, copied } = useClipboard()
         container: 'relative z-10 lg:py-32',
         wrapper: 'flex flex-col items-center',
         title: 'sm:text-6xl lg:text-7xl xl:text-[80px] tracking-tighter leading-[1.05]',
-        description: 'mt-5 max-w-xl mx-auto text-base sm:text-lg leading-relaxed',
+        description: 'mt-5 max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-default',
         links: 'gap-3'
       }"
     >
@@ -83,13 +83,13 @@ const { copy, copied } = useClipboard()
             color="neutral"
             variant="soft"
             :label="page.hero.headline"
-            class="rounded-full px-3 py-1.5"
+            class="rounded-full px-3 py-1.5 gap-1.5 bg-white/5 backdrop-blur"
           >
             <template #leading>
               <UChip
                 inset
                 standalone
-                class="animate-pulse"
+                :ui="{ base: 'animate-pulse ring-0' }"
               />
             </template>
           </UBadge>
@@ -106,7 +106,11 @@ const { copy, copied } = useClipboard()
           <br v-if="heroTitle.secondary">
           <span
             v-if="heroTitle.secondary"
-            class="bg-linear-to-br from-primary-400 via-primary-300 to-primary-200 bg-clip-text text-transparent"
+            class="animate-shimmer bg-size-[200%_auto] bg-clip-text text-transparent"
+            :style="{
+              backgroundImage: 'linear-gradient(135deg, var(--color-primary-400), var(--color-primary-300), var(--color-primary-200), var(--color-primary-100), var(--color-primary-200), var(--color-primary-300), var(--color-primary-400))',
+              animationDuration: '10s'
+            }"
           >
             {{ heroTitle.secondary }}
           </span>

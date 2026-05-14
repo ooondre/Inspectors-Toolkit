@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/content', '@nuxt/ui', '@vueuse/nuxt', 'motion-v/nuxt', '@nuxt/image', '@nuxtjs/turnstile'],
+  modules: ['@nuxt/content', '@nuxt/ui', '@vueuse/nuxt', 'motion-v/nuxt', '@nuxt/image', '@nuxtjs/turnstile'],
 
   runtimeConfig: {
     mailgun: {

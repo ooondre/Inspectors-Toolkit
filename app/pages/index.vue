@@ -25,7 +25,6 @@ const { data: page } = await useAsyncData(
     return await queryCollection('content').first()
   }
 )
-console.log('route.path', route.path, 'page', page.value)
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
